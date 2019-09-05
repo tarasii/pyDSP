@@ -34,12 +34,12 @@ def fir12tap(A, coef, n):
 		fir(A, coef, n, 12)
 
 if __name__ == '__main__':
-	fn = "dsp_cx_fir_x.in"
+	fn = "fir_x.in"
 	dt_in = util.load_file(fn)
 
 	dt_in = [x + y*1j for x, y in dt_in]
 
-	fn = "dsp_cx_fir_coefs.in"
+	fn = "fir_coefs.in"
 	coef = util.load_file(fn)
 	coef = [x + y*1j for x, y in coef]
 
