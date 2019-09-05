@@ -9,3 +9,9 @@ corelation.py
 
 svdj.py
 - Jacoby SVD
+
+fir.py
+- fir 6 TAP
+- fir 7 TAP
+- fir 8 TAP
+- fir 12 TAP
