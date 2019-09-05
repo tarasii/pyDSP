@@ -86,7 +86,7 @@ def tester_acorr(dt, n, m):
 		print(res[n-m:m-n])
 
 if __name__ == '__main__':
-	fn = "../reference_files/crosscorr.in"
+	fn = "crosscorr.in"
 	dt_in = util.load_file(fn)	
 	dt_in = [x + y*1j for x, y in dt_in]
 
