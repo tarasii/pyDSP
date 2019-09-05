@@ -1,9 +1,9 @@
 # pyDSP
 Simple DSP lib just for fun and better algorithms understanding.
 
-It uses python3 and numpy, desired to work with complex and real numbers.
+It uses python3 and numpy, desired to work with complex numbers.
 
-corelation.py
+correlation.py
 - cross correlation
 - auto correlation
 
