@@ -15,7 +15,6 @@ fir_up2_coef = [
 ]
 
 
-
 def fir_up2_opt(dt, coef):
 	""" optimized FIR function """
 
@@ -49,7 +48,7 @@ if __name__ == '__main__':
 	# upsemple by 2
 	dt_up = np.zeros(l, np.complex)
 	dt_up[::2] = dt_in
-	out = fir.fir(dt_up, np.array(fir_up2_coef, np.complex), 15);
+	out = fir.fir(dt_up, np.array(fir_up2_coef, np.int), 15);
 	out = np.around(out)
 
 	# comparing to ref file
