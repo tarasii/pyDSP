@@ -2,50 +2,73 @@ import numpy as np
 import util
 from scipy.signal import lfilter
 
+def fir_s(dt, coef, shift=0):
+	""" simple FIR function """
 
-def fir_t(A, coef, n, tap):
+	n = len(dt)	
+	ntap = len(coef)
+	res = np.zeros(n, np.complex)
+
+	# insert zeros for FIR preroll
+	dtx = np.append(np.zeros(ntap-1, np.complex), dt)
+
+	for i in range(0, n):
+		res[i] = np.sum(dtx[i:i+ntap]*coef[::-1])
+
+	return res / 2**shift
+
+
+def fir_t(A, coef, shift=0):
+	n = len(A)
+	tap = len(coef)	
 	res = np.zeros(n+tap, np.complex)
 	tmp = np.zeros(n, np.complex)
 	tmp[0:n] = A[0:n]
+	tap = len(coef)
 	for i in range(0, tap):
 		res[i:i+n] = res[i:i+n] + tmp*coef[i]
 
-	return res
+	return res[:len(A)]/2**shift
 
-def fir(A, coef, n, tap):
+
+def fir(A, coef, shift=0):
+	n = len(A)
+	tap = len(coef)
 	res = np.zeros(n+tap, np.complex)
-	tmp = np.zeros(tap, np.complex)
-	tmp[0:tap] = coef[0:tap]
+
 	for i in range(0, n):
-		res[i:i+tap] = res[i:i+tap] + A[i]*tmp
+		res[i:i+tap] = res[i:i+tap] + A[i]*coef
 
-	return res
+	return res[:len(A)]/2**shift
 
-def fir6tap(A, coef, n):
-		fir(A, coef, n, 6)
 
-def fir7tap(A, coef, n):
-		fir(A, coef, n, 7)
+def fir6tap(A, coef):
+		fir(A, coef[:6])
 
-def fir8tap(A, coef, n):
-		fir(A, coef, n, 8)
+def fir7tap(A, coef):
+		fir(A, coef[:7])
 
-def fir12tap(A, coef, n):
-		fir(A, coef, n, 12)
+def fir8tap(A, coef):
+		fir(A, coef[:8])
+
+def fir12tap(A, coef):
+		fir(A, coef[:12])
 
 if __name__ == '__main__':
 	fn = "fir_x.in"
-	dt_in = util.load_file(fn)
+	dt_in = util.load_complex(fn)
 
-	dt_in = [x + y*1j for x, y in dt_in]
 
 	fn = "fir_coefs.in"
-	coef = util.load_file(fn)
-	coef = [x + y*1j for x, y in coef]
+	coef = util.load_complex(fn)
 
-	res = fir(dt_in, coef, 128, 65)
+	res = fir_s(dt_in[:128], coef[:65])
 
-	print(res[0:20])
+	ref = lfilter(coef[:65], 1.0, dt_in)
 
-	res = lfilter(coef[0:65], 1.0, dt_in)
-	print(res[0:20])
+	diff = res - ref
+	diff = np.absolute(diff)
+	diff = diff[diff > 0]
+	print(f"Values count with difference: {len(diff)}")
+
+

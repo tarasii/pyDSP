@@ -24,3 +24,9 @@ def load_file(fn, ftype=0, spl=', '):
 		dt = np.reshape(dt,(int(size/2),2))
 
 	return dt
+
+def load_complex(fn, spl=', '):
+	dt = load_file(fn, 0, ", ")
+	dt = [x + y*1j for x, y in dt]
+	dt = np.array(dt, np.complex)
+	return dt

@@ -11,7 +11,11 @@ svdj.py
 - Jacoby SVD
 
 fir.py
-- fir 6 TAP
-- fir 7 TAP
-- fir 8 TAP
-- fir 12 TAP
+- 3 different implementations of universal FIR
+- FIR 6 TAP
+- FIR 7 TAP
+- FIR 8 TAP
+- FIR 12 TAP
+
+fir_up2.py
+- FIR UP 2 with optimizations
