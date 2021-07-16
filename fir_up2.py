@@ -43,12 +43,14 @@ if __name__ == '__main__':
 	fn_inp = "fir_up2.inp"
 
 	dt_in = util.load_complex(fn_inp, ", ")
-	l = 2*len(dt_in)
 
 	# upsemple by 2
+	l = 2*len(dt_in)
 	dt_up = np.zeros(l, np.complex)
 	dt_up[::2] = dt_in
 	out = fir.fir(dt_up, np.array(fir_up2_coef, np.int), 15);
+	#out = fir.fir_s(dt_up, np.array(fir_up2_coef, np.int), 15);
+	#out = fir.fir_t(dt_up, np.array(fir_up2_coef, np.int), 15);
 	out = np.around(out)
 
 	# comparing to ref file
