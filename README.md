@@ -19,3 +19,6 @@ fir.py
 
 fir_up2.py
 - FIR UP 2 with optimizations
+
+fir_up3.py
+- FIR UP 3 with optimizations
