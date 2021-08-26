@@ -10,54 +10,24 @@ coef_fir3 = np.array(coef_fir3, np.int32)
 print(len(coef_fir3))
 
 def fir3_simple(dt, coef):
+	ss = np.zeros(10, np.complex)
 
 	coef0 = coef[0::3]
 	coef1 = coef[2::3]
 	coef2 = coef[1::3]
 
-	#print(dt[0:10])
-	#89
-	zz = np.sum(dt[0:9]*coef0)
-	zz = zz / 2**15
-	print (zz)
+	ss[0] = np.sum(dt[0:9]*coef0)
+	ss[1] = np.sum(dt[1:9]*coef1)
+	ss[2] = np.sum(dt[1:9]*coef2)
+	ss[3] = np.sum(dt[1:10]*coef0)
+	ss[4] = np.sum(dt[147:147+8]*coef1)
+	ss[5] = np.sum(dt[147:147+8]*coef2)
+	ss[6] = np.sum(dt[147:147+9]*coef0)
+	ss[7] = np.sum(dt[148:148+8]*coef1)
+	ss[8] = np.sum(dt[148:148+8]*coef2)
+	ss[9] = np.sum(dt[148:148+9]*coef0)
 
-	zz = np.sum(dt[1:9]*coef1)
-	zz = zz / 2**15
-	print (zz)
-
-	zz = np.sum(dt[1:9]*coef2)
-	zz = zz / 2**15
-	print (zz)
-
-	zz = np.sum(dt[1:10]*coef0)
-	zz = zz / 2**15
-	print (zz)
-
-
-
-	zz = np.sum(dt[147:147+8]*coef1)
-	zz = zz / 2**15
-	print (zz)
-
-	zz = np.sum(dt[147:147+8]*coef2)
-	zz = zz / 2**15
-	print (zz)
-
-	zz = np.sum(dt[147:147+9]*coef0)
-	zz = zz / 2**15
-	print (zz)
-
-	zz = np.sum(dt[148:148+8]*coef1)
-	zz = zz / 2**15
-	print (zz)
-
-	zz = np.sum(dt[148:148+8]*coef2)
-	zz = zz / 2**15
-	print (zz)
-
-	zz = np.sum(dt[148:148+9]*coef0)
-	zz = zz / 2**15
-	print (zz)
+	return np.around(ss / 2**15)
 
 
 def fir3_opt(dt, coef):
@@ -103,6 +73,7 @@ if __name__ == '__main__':
 	dd2 = fir3_opt(dt_in, coef_fir3)
 	dd2 = np.around(dd2)
 	#print(dd2[0:50])
+
 	
 	util.write_complex(dd2, "fir_up3.out")
 	

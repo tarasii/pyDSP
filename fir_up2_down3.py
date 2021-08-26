@@ -89,20 +89,7 @@ def fir_up2_down3_loop(dt):
 def fir_up2_down3(dt):
 	l = len(dt)
 
-	dt = np.insert(dt,0,0)
-	dt = np.insert(dt,0,0)
-	dt = np.insert(dt,0,0)
-	dt = np.insert(dt,0,0)
-	dt = np.insert(dt,0,0)
-	dt = np.insert(dt,0,0)
-	dt = np.insert(dt,0,0)
-	dt = np.insert(dt,0,0)
-	dt = np.insert(dt,0,0)
-	dt = np.insert(dt,0,0)
-	dt = np.insert(dt,0,0)
-	dt = np.insert(dt,0,0)
-	dt = np.insert(dt,0,0)
-	dt = np.insert(dt,0,0)
+	dt = np.insert(dt, 0, np.zeros(14, np.complex))
 
 	res = np.zeros(round(l/12*8), np.complex)
 	for x in range(0, round(l/12)):
