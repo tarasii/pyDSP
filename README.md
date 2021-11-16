@@ -25,3 +25,6 @@ fir_up3.py
 
 fir_up2_down3.py
 - FIR UP 2 DOWN 3 with optimizations
+
+ldpc_5g.py
+- LDPC encoder for 5G NR
