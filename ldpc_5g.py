@@ -1,7 +1,6 @@
 
 import pcm
 
-
 max_zc = 384
 
 pcmt = pcm.init_pcm()
@@ -99,82 +98,59 @@ def ldpc_encoder(s, bg, i_ls):
 
   nrows, ncols, ah, kb = pcm.get_defs(bg)
 
+  _as = add_shift(s, 0, ah, 0, kb)
+  _cs = add_shift(s, ah, nrows, 0, kb)
+	
   if (bg==1):
 
-    _as = add_shift(s, 0, ah, 0, kb)
-    _cs = add_shift(s, ah, nrows, 0, kb)
-
-    p10 = _as[0]
-    p10 = xor(p10, _as[1])
+    p10 = xor(_as[0], _as[1])
     p10 = xor(p10, _as[2])
     p10 = xor(p10, _as[3])
 
-    p11 = _as[0]
     sh = pcm.get_shift(bg, i_ls, 0, kb)
-    tmp = cyc_shift(p10, sh)
-    p11 = xor(p11, tmp)
+    p10_sh = cyc_shift(p10, sh)
+    p11 = xor(_as[0], p10_sh)
 
-    p12 = _as[2]
-    p12 = xor(p12, _as[3])
-    p12 = xor(p12, tmp)
+    p12 = xor(_as[2], _as[3])
+    p12 = xor(p12, p10_sh)
 
-    p13 = _as[3]
-    p13 = xor(p13, tmp)
+    p13 = xor(_as[3], p10_sh)
 
     p14 = _as[4]
 
     _p1 = [p10, p11, p12, p13, p14]
 
-    _dp =  add_shift(_p1, ah, nrows, kb, kb+ah)
-
   else:
 
-    _as = add_shift(s, 0, ah, 0, kb)
-    _cs = add_shift(s, ah, nrows, 0, kb)
-
-    p10 = _as[0]
-    p10 = xor(p10, _as[1])
+    p10 = xor(_as[0], _as[1])
     p10 = xor(p10, _as[2])
     p10 = xor(p10, _as[3])
-    #print_vec_hex(p10,12)
-
-    p11 = _as[0]
     a0_sh = pcm.get_shift(bg, i_ls, 2, kb)
-    tmp = cyc_shift(p10, a0_sh)
-    p11 = xor(p11, tmp)
-    #print_vec_hex(p11,12)
+    p10 = cyc_shift(p10, -a0_sh)
+
+    p11 = xor(_as[0], p10)
 
     x_sh = pcm.get_shift(bg, i_ls, 4, kb+1)
     y_sh = pcm.get_shift(bg, i_ls, 5, kb+1)
     z_sh = pcm.get_shift(bg, i_ls, 6, kb+1)
 
-    p12 = _as[1]
-    p12 = xor(p11, _as[3])
-    #print_vec_hex(p12,12)
+    p12 = xor(_as[1], p11)
 
-    p13 = _as[3]
-    p13 = xor(p13, tmp)
-    #print_vec_hex(p13,12)
+    p13 = xor(_as[3], p10)
 
-    p14 = _as[4]
     tmp = cyc_shift(p11, x_sh)
-    p14 = xor(p14, tmp)
-    #print_vec_hex(p14,12)
+    p14 = xor(_as[4], tmp)
 
-    p15 = _as[4]
     tmp = cyc_shift(p11, y_sh)
-    p15 = xor(p15, tmp)
-    #print_vec_hex(p15,12)
+    p15 = xor(_as[5], tmp)
 
-    p16 = _as[4]
-    tmp = cyc_shift(p11, y_sh)
-    p16 = xor(p16, tmp)
-    #print_vec_hex(p15,12)
+    tmp = cyc_shift(p11, z_sh)
+    p16 = xor(_as[6], tmp)
 
     _p1 = [p10, p11, p12, p13, p14, p15, p16]
 
-    _dp =  add_shift(_p1, ah, nrows, kb, kb+ah)
 
+  _dp =  add_shift(_p1, ah, nrows, kb, kb+ah)
 
   #P2 = CS+DP
   _p2 = []
