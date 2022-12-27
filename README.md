@@ -28,3 +28,6 @@ fir_up2_down3.py
 
 ldpc_5g.py
 - LDPC encoder for 5G NR
+
+crc24.py
+- CRC24 algorithms. Simple and LUT 
